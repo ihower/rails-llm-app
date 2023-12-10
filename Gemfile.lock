@@ -77,11 +77,16 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    autoprefixer-rails (10.4.16.0)
+      execjs (~> 2)
     base64 (0.2.0)
     bigdecimal (3.1.4)
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
+    bootstrap (5.3.2)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.11.8, < 3)
     builder (3.2.4)
     capybara (3.39.2)
       addressable
@@ -102,6 +107,16 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
+    event_stream_parser (1.0.0)
+    execjs (2.9.1)
+    faraday (2.7.12)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.0.2)
+    ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -130,7 +145,10 @@ GEM
     mini_mime (1.1.5)
     minitest (5.20.0)
     msgpack (1.7.2)
+    multipart-post (2.3.0)
     mutex_m (0.2.0)
+    neighbor (0.3.1)
+      activerecord (>= 6.1)
     net-imap (0.4.7)
       date
       net-protocol
@@ -147,20 +165,22 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
+    pg (1.5.4)
+    popper_js (2.11.8)
     psych (5.1.1.1)
       stringio
     public_suffix (5.0.4)
     puma (6.4.0)
       nio4r (~> 2.0)
     racc (1.7.3)
-    rack (3.0.8)
-    rack-session (2.0.0)
-      rack (>= 3.0.0)
+    rack (2.2.8)
+    rack-session (1.0.2)
+      rack (< 3)
     rack-test (2.1.0)
       rack (>= 1.3)
-    rackup (2.1.0)
-      rack (>= 3)
-      webrick (~> 1.8)
+    rackup (1.0.0)
+      rack (< 3)
+      webrick
     rails (7.1.2)
       actioncable (= 7.1.2)
       actionmailbox (= 7.1.2)
@@ -201,31 +221,35 @@ GEM
     reline (0.4.1)
       io-console (~> 0.5)
     rexml (3.2.6)
+    ruby-openai (6.3.1)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.16.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sprockets (4.2.1)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
+      rack (> 1, < 3)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.9-aarch64-linux)
-    sqlite3 (1.6.9-arm64-darwin)
-    sqlite3 (1.6.9-x86_64-linux)
-    stimulus-rails (1.3.0)
-      railties (>= 6.0.0)
     stringio (3.1.0)
     thor (1.3.0)
+    tilt (2.3.0)
     timeout (0.4.1)
-    turbo-rails (1.5.0)
-      actionpack (>= 6.0.0)
-      activejob (>= 6.0.0)
-      railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     web-console (4.2.1)
@@ -249,18 +273,21 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap (~> 5.2)
   capybara
   debug
   importmap-rails
   jbuilder
+  neighbor
+  pg
   puma (>= 5.0)
   rails (~> 7.1.2)
   redis (>= 4.0.1)
+  ruby-openai
+  sassc-rails
   selenium-webdriver
+  sprockets (~> 3.7.2)
   sprockets-rails
-  sqlite3 (~> 1.4)
-  stimulus-rails
-  turbo-rails
   tzinfo-data
   web-console
 
