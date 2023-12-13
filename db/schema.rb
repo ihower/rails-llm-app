@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_10_104733) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_13_133819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "vector"
 
   create_table "conversations", force: :cascade do |t|
     t.string "uuid"
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "document_chunks", force: :cascade do |t|
+    t.integer "document_id"
+    t.vector "embedding", limit: 1536
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_id"], name: "index_document_chunks_on_document_id"
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string "doc"
+    t.string "file_name"
+    t.integer "file_size"
+    t.string "description"
+    t.string "status", default: "pending"
+    t.string "content_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
     @message.save!
     ActionCable.server.broadcast( "chat-#{@chat.uuid}", { :html => ApplicationController.render( :partial => "messages/message", :locals => { :message => @message }  ) })
     job_model = "#{@message.processing_job}_job".camelize.constantize
-    job_model.perform_now(@message)
+    job_model.perform_later(@message)
 
     respond_to do |format|
       format.html { redirect_to chat_path(@chat) }
