@@ -16,6 +16,8 @@ gem "pg"
 gem "neighbor"
 gem "ruby-openai"
 
+gem "rest-client"
+
 gem 'carrierwave'
 
 # Use the Puma web server [https://github.com/puma/puma]
