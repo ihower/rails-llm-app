@@ -10,7 +10,7 @@ class SimpleSearchFcJob < ApplicationJob
       parameters: {
         model: 'gpt-3.5-turbo',
         messages: [{ role: "user", content: message.content }],
-        temperature: 0.5,
+        temperature: 0,
         functions: [
             {
                 "name": "google_search",
@@ -47,7 +47,7 @@ class SimpleSearchFcJob < ApplicationJob
         parameters: {
           model: 'gpt-4-1106-preview',
           messages: history,
-          temperature: 0.5,
+          temperature: 0.3,
       })
       result = response.dig("choices", 0, "message", "content")
     else

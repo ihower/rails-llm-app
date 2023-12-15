@@ -8,7 +8,7 @@ class SimpleSearchJob < ApplicationJob
       parameters: {
         model: 'gpt-3.5-turbo',
         messages: [{ role: "user", content: "請從以下用戶查詢句子中，擷取關鍵字: #{message.content}"} ],
-        temperature: 0.5,
+        temperature: 0,
     })
     keyword = response.dig("choices", 0, "message", "content")
 
@@ -27,7 +27,7 @@ class SimpleSearchJob < ApplicationJob
       parameters: {
         model: 'gpt-3.5-turbo',
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.5,
+        temperature: 0.3,
     })
     result = response.dig("choices", 0, "message", "content")
 
