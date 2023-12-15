@@ -39,30 +39,45 @@ def get_stock_information(date, stock_code)
   response.body
 end
 
-query = "請問112年的11月1號的台積電，股價表現如何?"
+def get_completion_with_function_execution(messages, model="gpt-3.5-turbo", temperature=0)
+  puts("called prompt: #{messages}")
 
-# Step 1: 將用戶查詢轉成對 function 的呼叫
-puts("----- Step 1:")
+  response = get_completion(messages, model, temperature)
+
+  if response["function_call"]
+    messages << {
+        "role": "assistant",
+        "content": nil,
+        "function_call": response["function_call"]
+    }
+
+    # ------ 呼叫函數
+    function_name = response["function_call"]["name"]
+    function_args = JSON.parse(response["function_call"]["arguments"])
+
+    puts("   called function: #{function_args}")
+    function_response = get_stock_information(function_args["date"], function_args["stock_code"])
+
+    # --------------
+
+    messages << {
+        "role": "function",
+        "name": function_name,
+        "content": function_response
+    }
+
+    # 進行遞迴呼叫
+    return get_completion_with_function_execution(messages, model, temperature)
+
+  else
+    return response["content"]
+  end
+end
+
+query = "請問112年的11月1號的台積電和鴻海的股價表現如何?"
+
 
 messages = [{"role": "user", "content": query }]
 
-result = get_completion(messages, "gpt-3.5-turbo")
+result = get_completion_with_function_execution(messages, "gpt-3.5-turbo")
 puts(result)
-
-# Step 2: 本地執行 function
-puts("----- Step 2:")
-messages << result
-
-args = JSON.parse( result["function_call"]["arguments"] )
-context = get_stock_information(args["date"], args["stock_code"])
-
-puts(context)
-
-# Step 3: 將 function 結果回傳給 GPT
-puts("----- Step 3:")
-
-messages << { "role": "function", "name": "get_stock_information",
-              "content": context }
-
-result = get_completion(messages, "gpt-3.5-turbo")
-puts(result["content"])

@@ -39,7 +39,7 @@ def get_stock_information(date, stock_code)
   response.body
 end
 
-query = "請問112年的11月1號的台積電，股價表現如何?"
+query = "請問112年的11月1號的台積電和鴻海，股價表現如何?"
 
 # Step 1: 將用戶查詢轉成對 function 的呼叫
 puts("----- Step 1:")
@@ -65,4 +65,6 @@ messages << { "role": "function", "name": "get_stock_information",
               "content": context }
 
 result = get_completion(messages, "gpt-3.5-turbo")
-puts(result["content"])
+puts(result)
+
+# 這個 result 繼續要我執行 function....
