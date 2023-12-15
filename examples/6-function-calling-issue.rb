@@ -67,4 +67,4 @@ messages << { "role": "function", "name": "get_stock_information",
 result = get_completion(messages, "gpt-3.5-turbo")
 puts(result)
 
-# 這個 result 繼續要我執行 function....
+# 這個 result 繼續要我執行 function，還沒有完成用戶問題

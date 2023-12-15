@@ -43,7 +43,3 @@ response = get_completion(messages, "gpt-3.5-turbo")
 puts(response["content"])
 
 # 最後的答案 x 是 200。
-# 若加上 "不要輸出過程，只要回答最後 x 是多少?"
-#   最後的答案 x 是 189。 <- 是錯的
-# 若用 "請直接回答最後答案，然後再解釋說明是如何算出來的" 呢?
-#   先錯又對... XD

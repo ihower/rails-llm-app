@@ -70,6 +70,7 @@ def get_completion_with_function_execution(messages, model="gpt-3.5-turbo", temp
     return get_completion_with_function_execution(messages, model, temperature)
 
   else
+    puts("-----------")
     return response["content"]
   end
 end
