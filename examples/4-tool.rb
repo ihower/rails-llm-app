@@ -33,7 +33,11 @@ messages = [
 }"
 }]
 
+puts messages
+
 result = get_completion(messages, "gpt-3.5-turbo")
+
+puts "Result: "
 puts(result["content"])
 data = JSON.parse(result["content"])
 
@@ -60,5 +64,13 @@ context: #{context}
 "}
 ]
 
+puts messages
 result = get_completion(messages)
+
+puts "\nResult: "
 puts(result["content"])
+
+
+# Step 1: 從用戶問題中，用 prompt1 來提取出 外部工具的參數
+# Step 2: 執行工具，拿到結果
+# Step 3: 用 (prompt2 + 結果) 轉成自然語言回給用戶

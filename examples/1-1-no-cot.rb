@@ -22,6 +22,7 @@ user_message = "
 之後，我又去買了5個蘋果，然後吃了1個。我還剩下多少個蘋果？
 "
 
+# OpenAI 的 prompt 使用 messages 陣列格式，區分 user 和 assistant 角色
 messages = [
     {
         "role": "user",

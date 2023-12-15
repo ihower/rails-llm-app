@@ -29,7 +29,8 @@ Step 3: x 減 1
 Step 4: x 乘 2
 Step 5: x 減 20
 
-不要輸出過程，只要回答最後 x 是多少?
+請將思考步驟放進 <thinking> </thinking> XML 標籤。
+最後的答案 x 請放進 <answer> </answer> XML 標籤。
 "
 
 messages = [
@@ -42,4 +43,4 @@ messages = [
 response = get_completion(messages, "gpt-3.5-turbo")
 puts(response["content"])
 
-# 最後 x 是 189。
+# 最後的答案 x 是 200。

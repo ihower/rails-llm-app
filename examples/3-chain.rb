@@ -37,7 +37,10 @@ When mixing Chinese and English, add a whitespace between Chinese and English ch
     {"role": "user", "content": text}
 ]
 
+puts messages1
+
 result1 = get_completion(messages1)
+puts "Round 1 result: "
 puts(result1["content"])
 
 puts("--------------")
@@ -49,18 +52,20 @@ messages2 = [
 
 * 保留特定的英文術語、數字或名字，並在其前後加上空格，例如：'生成式 AI 產品'，'不超過 10 秒'。
 * 基於直譯結果重新意譯，意譯時務必對照原始英文，不要添加也不要遺漏內容，並以讓翻譯結果通俗易懂，符合中文表達習慣
-* 請輸出成台灣使用的繁體中文 zh-tw
-
-英文原文：
+* 請輸出成台灣使用的繁體中文 zh-tw" },
+   {"role": "user", "content": "
+英文原文:
 #{text}
 
-直譯結果：
+直譯結果:
 #{result1["content"]}
 
-意譯和潤色後：
-"
-}
-]
+意譯和潤色後: "
+}]
+
+puts messages2
 
 result2 = get_completion(messages2)
+
+puts "Round 2 result: "
 puts(result2["content"])

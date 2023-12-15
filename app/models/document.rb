@@ -49,11 +49,16 @@ class Document < ApplicationRecord
     client = OpenAI::Client.new(access_token: Rails.application.secrets.openai_api_key)
 
     self.update_column(:status, "splitting text")
+
+    # Step 1: 讀取檔案中的文字
     text = File.read(self.doc.path)
+
+    # Step 2: 拆段落
     chunk_texts = Document.split_into_many(text)
 
     self.update_column(:status, "embedding")
 
+    # Step 3: 每個段落跑 embedding 後，存進 PG 資料庫
     chunk_texts.each do |chunk_text|
       response = client.embeddings(
           parameters: {

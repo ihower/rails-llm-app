@@ -3,8 +3,9 @@ class SimpleRagJob < ApplicationJob
   def perform(message)
     conversion = message.conversation
     client = OpenAI::Client.new(access_token: Rails.application.secrets.openai_api_key)
-    query = message["content"]
 
+    # Step 1: 將 query 轉成 embedding
+    query = message["content"]
     response = client.embeddings(
         parameters: {
             model: "text-embedding-ada-002",
@@ -14,9 +15,13 @@ class SimpleRagJob < ApplicationJob
 
     query_embedding = response.dig("data", 0, "embedding")
 
+    # Step 2: 根據 query embedding 去找出最相似的五筆向量
     similar_chunks = DocumentChunk.nearest_neighbors(:embedding, query_embedding, distance: "euclidean").limit(5)
+
+    # 把這五筆的文字組起來變成參考用 context
     context = similar_chunks.map{ |x| x.text }.join("\n*")
 
+    # Step 3: 組成 Prompt 送出
     prompt = <<-HERE
 I'm going to give you a document. Then I'm going to ask you a question about it. I'd like you to first write down exact quotes of parts of the document that would help answer the question, and then I'd like you to answer the question using facts from the quoted content. Here is the document:
 

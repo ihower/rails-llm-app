@@ -39,32 +39,42 @@ def get_stock_information(date, stock_code)
   response.body
 end
 
-query = "請問112年的11月1號的台積電和鴻海，股價表現如何?"
+query = "Hello"
 
 # Step 1: 將用戶查詢轉成對 function 的呼叫
 puts("----- Step 1:")
 
 messages = [{"role": "user", "content": query }]
 
+puts messages
 result = get_completion(messages, "gpt-3.5-turbo")
+
+puts "Result:"
 puts(result)
 
 # Step 2: 本地執行 function
-puts("----- Step 2:")
-messages << result
+# 相比用 Chaining Prompt 的方法做，function calling 可以幫你判斷要用哪一個工具或不用
+if result["function_call"]
 
-args = JSON.parse( result["function_call"]["arguments"] )
-context = get_stock_information(args["date"], args["stock_code"])
+  puts("----- Step 2:")
 
-puts(context)
+  messages << result
 
-# Step 3: 將 function 結果回傳給 GPT
-puts("----- Step 3:")
+  args = JSON.parse( result["function_call"]["arguments"] )
+  context = get_stock_information(args["date"], args["stock_code"])
 
-messages << { "role": "function", "name": "get_stock_information",
-              "content": context }
+  puts(context)
 
-result = get_completion(messages, "gpt-3.5-turbo")
-puts(result)
+  # Step 3: 將 function 結果回傳給 GPT
+  puts("----- Step 3:")
 
-# 這個 result 繼續要我執行 function，還沒有完成用戶問題
+  messages << { "role": "function", "name": "get_stock_information",
+                "content": context }
+
+  puts messages
+  result = get_completion(messages, "gpt-3.5-turbo")
+
+  puts "Result: "
+  puts(result["content"])
+
+end

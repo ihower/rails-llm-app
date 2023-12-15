@@ -46,23 +46,34 @@ puts("----- Step 1:")
 
 messages = [{"role": "user", "content": query }]
 
+puts messages
 result = get_completion(messages, "gpt-3.5-turbo")
+
+puts "Result:"
 puts(result)
 
 # Step 2: 本地執行 function
-puts("----- Step 2:")
-messages << result
+if result["function_call"]
 
-args = JSON.parse( result["function_call"]["arguments"] )
-context = get_stock_information(args["date"], args["stock_code"])
+  puts("----- Step 2:")
 
-puts(context)
+  messages << result
 
-# Step 3: 將 function 結果回傳給 GPT
-puts("----- Step 3:")
+  args = JSON.parse( result["function_call"]["arguments"] )
+  context = get_stock_information(args["date"], args["stock_code"])
 
-messages << { "role": "function", "name": "get_stock_information",
-              "content": context }
+  puts(context)
 
-result = get_completion(messages, "gpt-3.5-turbo")
-puts(result["content"])
+  # Step 3: 將 function 結果回傳給 GPT
+  puts("----- Step 3:")
+
+  messages << { "role": "function", "name": "get_stock_information",
+                "content": context }
+
+  puts messages
+  result = get_completion(messages, "gpt-3.5-turbo")
+
+  puts "Result: "
+  puts(result["content"])
+
+end

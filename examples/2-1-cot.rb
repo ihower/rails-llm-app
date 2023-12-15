@@ -21,7 +21,7 @@ end
 # The final value of x is ?
 
 user_message = "
-請用以下計算數學計算，假設 x = 100
+請用以下步驟計算，假設 x = 100
 
 Step 1: x 加 1
 Step 2: x 加 10
