@@ -12,6 +12,14 @@ def get_completion(messages, model="gpt-3.5-turbo", temperature=0)
   response.dig("choices", 0, "message")
 end
 
+# Assuming x = 100, let's calculate:
+# Step 1: x + 1
+# Step 2: x + 10
+# Step 3: x - 1
+# Step 4: x * 2
+# Step 5: x - 20
+# The final value of x is ?
+
 user_message = "
 請用以下計算數學計算，假設 x = 100
 

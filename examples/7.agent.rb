@@ -76,7 +76,6 @@ end
 
 query = "請問112年的11月1號的台積電和鴻海的股價表現如何?"
 
-
 messages = [{"role": "user", "content": query }]
 
 result = get_completion_with_function_execution(messages, "gpt-3.5-turbo")
