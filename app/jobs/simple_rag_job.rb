@@ -15,10 +15,10 @@ class SimpleRagJob < ApplicationJob
 
     query_embedding = response.dig("data", 0, "embedding")
 
-    # Step 2: 根據 query embedding 去找出最相似的五筆向量
-    similar_chunks = DocumentChunk.nearest_neighbors(:embedding, query_embedding, distance: "euclidean").limit(5)
+    # Step 2: 根據 query embedding 去找出最相似的三筆向量
+    similar_chunks = DocumentChunk.nearest_neighbors(:embedding, query_embedding, distance: "euclidean").limit(3)
 
-    # 把這五筆的文字組起來變成參考用 context
+    # 把這三筆的文字組起來變成參考用 context
     context = similar_chunks.map{ |x| x.text }.join("\n*")
 
     # Step 3: 組成 Prompt 送出
@@ -56,11 +56,13 @@ Answer the question immediately without preamble.
 請用台灣繁體中文回答.
 HERE
 
+    Rails.logger.debug(prompt)
+
     response = client.chat(
       parameters: {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4-1106-preview',
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.3,
+        temperature: 0,
     })
     result = response.dig("choices", 0, "message", "content")
 
