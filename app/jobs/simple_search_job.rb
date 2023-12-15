@@ -7,7 +7,7 @@ class SimpleSearchJob < ApplicationJob
     response = client.chat(
       parameters: {
         model: 'gpt-3.5-turbo',
-        messages: [{ role: "user", content: "請從以下用戶查詢句子中，擷取中搜尋用的關鍵字: #{message.content}"} ],
+        messages: [{ role: "user", content: "請從以下用戶查詢句子中，擷取關鍵字: #{message.content}"} ],
         temperature: 0.5,
     })
     keyword = response.dig("choices", 0, "message", "content")
@@ -16,10 +16,11 @@ class SimpleSearchJob < ApplicationJob
 
     searched_text = GoogleSearch.get_text(keyword)
 
-    prompt = "這是用戶問題: #{message.content}
-  這是參考資訊: #{searched_text}
+    prompt = "這是用戶問題: ```#{message.content}```
+  請根據參考資訊回答: ```#{searched_text}```
   請回答:
     "
+
     Rails.logger.debug("prompt: #{prompt}")
 
     response = client.chat(

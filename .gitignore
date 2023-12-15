@@ -35,3 +35,4 @@
 /config/secrets.yml
 /config/master.key
 /uploads/*
+.byebug_history
