@@ -39,5 +39,8 @@ messages = [
     }
 ]
 
+puts messages
+puts "-----"
+
 response = get_completion(messages, "gpt-3.5-turbo")
 puts(response["content"])
